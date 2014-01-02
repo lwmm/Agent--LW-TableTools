@@ -1,0 +1,21 @@
+<?php if(isset($this->xml)):?>
+<fieldset class="lwadminform">
+    <legend class="lwadminform">Import Info</legend>
+    <div>
+        <?php if(isset($this->debug) && !$this->debug):?>
+        <p style="font-size: 16px; font-weight: bold;">Statements wurden ausgef&uuml;hrt !</p><br>
+        <?php endif; ?>
+        <?php if(isset($this->debugOutput)) { echo $this->debugOutput; }?>
+    </div>
+</fieldset>
+<?php endif; ?>
+
+<fieldset class="lwadminform">
+    <legend class="lwadminform">Import Xml</legend>
+    <form action="<?php echo $this->url ?>" method="post" enctype="multipart/form-data">
+        Datei&nbsp;&nbsp;&nbsp;<input type="file" name="xmlFile" class="file" /><br/><br/>
+        <textarea style="width:100%; height:400px;" name="xmlText"><?php if(isset($this->xml)) { echo $this->xml; } ?></textarea><br/><br/>
+        <span style="line-height:23px;">Debug </span><input type="checkbox" name="debug" value="1" checked="checked"><br/><br/>
+        <input class="btn" type="submit" value="Import" class="submit">
+    </form>
+</fieldset>

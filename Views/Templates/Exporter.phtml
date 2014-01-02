@@ -1,0 +1,84 @@
+<style>
+    #status_table table th{
+        border: 1px solid #222;
+        background-color: #BFBFBF;
+        padding: 2px;
+    }
+</style>
+
+<script>
+    $(document).ready(function() {
+        $('#status_table table th input:checkbox').click(function(e) {
+            var table = $(e.target).parents('table:first');
+            $('td input:checkbox', table).attr('checked', e.target.checked);
+        });
+    });
+</script>
+
+
+<?php if ($this->showXml == 1): ?>
+    <fieldset class="lwadminform">
+        <legend class="lwadminform">Xml</legend>
+
+        <textarea style="width:100%; height:400px;" name="pagecomment" readonly>
+            <?php echo trim($this->xml) ?>
+        </textarea>
+
+    </fieldset>
+<?php endif; ?>
+
+
+<fieldset class="lwadminform">
+    <legend class="lwadminform">Export Info</legend>
+    <div id="status_table">
+
+        <h3>EXPORT</h3>
+        <form action="<?php echo $this->prefixUrl; ?>" method="post">
+            Prefixfilter <input type="text" name="prefix_filter" value="<?php echo $this->filter ?>" size="6" /> <input type="submit" value="go"><br/>
+        </form>
+        <br/>
+        <form action="<?php echo $this->exportUrl; ?>" method="post">
+            <input type="hidden" name="prefix_filter" value="<?php echo $this->filter ?>" />
+
+            Download <input type="checkbox" name="download" value="1" /><br/><br/>
+            <select name="type">
+                <option value="structure">Struktur</option>
+                <option value="data">Daten</option>
+            </select>
+            <input type="submit" value="exportieren">
+
+            <table class="lwPageCommentTable" style="width:90%">
+                <thead>
+                    <tr>
+                        <th style="width: 13px;"><input type="checkbox" id="checkAll"></th>
+                        <th>Table</th>
+                        <th style="width: 70px;">Zeilen</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php $oddeven = "even" ?>
+                    <?php foreach ($this->tables as $table) : ?>
+                        <?php
+                        if ($oddeven == "even") {
+                            $oddeven = "odd";
+                        } else {
+                            $oddeven = "even";
+                        }
+                        ?>
+                        <tr class="<?php echo $oddeven ?>">
+                            <?php if (isset($this->selectedTables[$table])): ?>
+                                <td><input type="checkbox" name="tables[<?php echo $table ?>]" value="1" checked="checked"></td>
+                            <?php else: ?>
+                                <td><input type="checkbox" name="tables[<?php echo $table ?>]" value="1"></td>
+                            <?php endif; ?>
+                            <td><?php echo $table ?></td>    
+                            <td style="text-align: center;"><?php echo $this->tableLines[$table]; ?></td>    
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+
+        </form>
+
+    </div>
+</fieldset>
